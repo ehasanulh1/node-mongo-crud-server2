@@ -8,21 +8,28 @@ app.use(cors());
 app.use(express.json());
 
 // username: client02
-// password: sUM249tvB1zMxggA
+// password: ZWEhmaWGUiOHPxrQ
 
-const uri = "mongodb+srv://client02:sUM249tvB1zMxggA@cluster0.m8kuhin.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://client02:ZWEhmaWGUiOHPxrQ@cluster0.w1kojzp.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
     try {
+        const userCollection = client.db('nodeMongoCRUD02').collection('user');
 
+        app.post('/users', (req, res) => {
+            const user = req.body;
+            console.log(user)
+        })
+
+        const result = await userCollection.insertOne(user)
+        console.log(result)
     }
     finally {
 
     }
 }
 run().catch(err => console.log(err));
-
 
 
 app.get('/', (req, res) => {

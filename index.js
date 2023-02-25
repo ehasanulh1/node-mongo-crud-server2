@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const { query } = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -16,6 +17,13 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const userCollection = client.db('nodeMongoCRUD02').collection('users');
+
+        app.get('/users', async (req, res) => {
+            const query = {};
+            const cursor = userCollection.find(query);
+            const users = await cursor.toArray();
+            res.send(users)
+        })
 
         app.post('/users', async (req, res) => {
             const user = req.body;

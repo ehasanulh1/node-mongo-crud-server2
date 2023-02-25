@@ -4,8 +4,8 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
 // username: client02
 // password: ZWEhmaWGUiOHPxrQ
@@ -15,15 +15,15 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 async function run() {
     try {
-        const userCollection = client.db('nodeMongoCRUD02').collection('user');
+        const userCollection = client.db('nodeMongoCRUD02').collection('users');
 
-        app.post('/users', (req, res) => {
+        app.post('/users', async (req, res) => {
             const user = req.body;
-            console.log(user)
+            console.log(user);
+            const result = await userCollection.insertOne(user);
+            res.send(result)
+            console.log(result)
         })
-
-        const result = await userCollection.insertOne(user)
-        console.log(result)
     }
     finally {
 
